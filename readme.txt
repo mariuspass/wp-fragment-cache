@@ -17,9 +17,9 @@ It can cache entire loops with the WP_Query(bypassing the database queries) or o
 
 ### Example usage:
 
-`<?php if ( ! WP_Fragment_Cache::output($wp_query_or_blockname, $duration)): ?>
+`<?php if ( ! WP_Fragment_Cache::output( $wp_query_or_blockname, $duration ) ): ?>
 
-//content to be cached
+  //content to be cached
 
 <?php WP_Fragment_Cache::store(); ?>`
 
@@ -35,19 +35,23 @@ Default: 86400 (one day).
 
 
 ### Advanced usage:
-*TBA*
+See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki) on GitHub
 
 == Installation ==
 1. You should have a [persistent cache plugin](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) enabled. This plugin can't be activated without a persistent cache.
 1. Download the plugin and unzip.
 1. Upload them to `/wp-content/plugins/` directory on your WordPress installation.
 1. Then activate the WP Fragment Cache plugin from Plugins page.
-1. Edit your template files to include WP Fragment Cache. See the [Description tab](http://wordpress.org/extend/plugins/WP_Fragment_Cache/)
+1. Edit your template files to include WP Fragment Cache. See the [Description tab](http://wordpress.org/extend/plugins/wp-fragment-cache/)
 
 == Frequently Asked Questions ==
 = I can't activate the plugin. =
 Please make sure that you have a [persistent cache plugin](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) enabled.
 
 == Changelog ==
+= 1.0.1 =
+* Add README and CHANGELOG.
+* Add link for Advanced usage.
+
 = 1.0.0 =
 * Initial release.
