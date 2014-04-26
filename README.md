@@ -1,7 +1,7 @@
 ## WP Fragment Cache
 
 ### Description
-**This plugin can't be activated without a [persistent cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins).**
+**This plugin can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
 
 Improve website performance by caching individual page fragments (widgets, menus output and long loops).
 
@@ -32,7 +32,7 @@ Default: 86400 (one day).
 See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki)
 
 ### Installation:
-1. You should have a [persistent cache plugin](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) enabled. This plugin can't be activated without a persistent cache.
+1. You should have a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) enabled. This plugin can't be activated without a persistent cache.
 1. Download the plugin and unzip.
 1. Upload them to `/wp-content/plugins/` directory on your WordPress installation.
 1. Then activate the WP Fragment Cache plugin from Plugins page.

@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Improve website performance by caching individual page fragments (widgets, menus output and long loops).
 
 == Description ==
-**This plugin can't be activated without a [persistent cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins).**
+**This plugin can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
 
 Adds ability to cache particular sections of your site. This plugin is for people who can't use a full page cache or for sites with lots of pages and with frequent changes.
 It can cache entire loops with the WP_Query(bypassing the database queries) or only the html output of the loop and if the query results has changed(comment added, post was edited, postmeta has changed ...) the cache will be invalidated and regenerated.
@@ -38,7 +38,7 @@ Default: 86400 (one day).
 See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki) on GitHub
 
 == Installation ==
-1. You should have a [persistent cache plugin](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) enabled. This plugin can't be activated without a persistent cache.
+1. You should have a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) enabled. This plugin can't be activated without a persistent cache.
 1. Download the plugin and unzip.
 1. Upload them to `/wp-content/plugins/` directory on your WordPress installation.
 1. Then activate the WP Fragment Cache plugin from Plugins page.
@@ -46,9 +46,12 @@ See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki) on Gi
 
 == Frequently Asked Questions ==
 = I can't activate the plugin. =
-Please make sure that you have a [persistent cache plugin](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) enabled.
+Please make sure that you have a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) enabled.
 
 == Changelog ==
+= 1.0.2 =
+* Improve the description of the persistent cache requirement to avoid any confusion.
+
 = 1.0.1 =
 * Add README and CHANGELOG.
 * Add link for Advanced usage.
