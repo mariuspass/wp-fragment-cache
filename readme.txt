@@ -21,7 +21,8 @@ It can cache entire loops with the WP_Query(bypassing the database queries) or o
 
   //content to be cached
 
-<?php WP_Fragment_Cache::store(); ?>`
+  <?php WP_Fragment_Cache::store(); ?>
+<?php endif; ?>`
 
 #### Parameters:
 
@@ -49,6 +50,9 @@ See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki) on Gi
 Please make sure that you have a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) enabled.
 
 == Changelog ==
+= 1.0.3 =
+* Fix example usage code block.
+
 = 1.0.2 =
 * Improve the description of the persistent cache requirement to avoid any confusion.
 

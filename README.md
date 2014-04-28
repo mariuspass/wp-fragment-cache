@@ -15,7 +15,8 @@ It can cache entire loops with the WP_Query(bypassing the database queries) or o
 
   //content to be cached
 
-<?php WP_Fragment_Cache::store(); ?>
+  <?php WP_Fragment_Cache::store(); ?>
+<?php endif; ?>
 ```
 
 **Parameters:**
