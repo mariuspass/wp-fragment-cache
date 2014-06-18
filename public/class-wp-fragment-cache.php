@@ -100,7 +100,8 @@ class WP_Fragment_Cache {
 
 		$is_enabled_option = (bool) get_option( 'wp_fragment_cache_is_enabled' );
 		if ( $is_enabled_option && wp_using_ext_object_cache() ) {
-			$this->is_enabled = true;
+			$this->is_enabled      = true;
+			$this->theme_directory = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
 		}
 	}
 
@@ -284,10 +285,6 @@ class WP_Fragment_Cache {
 	 * @since    1.0.0
 	 */
 	private function _set_cache_key_prefix() {
-		if ( empty( $this->theme_directory ) ) {
-			$this->theme_directory = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
-		}
-
 		// PHP 5.3 compatibility fix, limit parameter was added in php 5.4.0
 		if ( version_compare( PHP_VERSION, '5.4.0' ) >= 0 ) {
 			$backtraceArray = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 3 );
