@@ -288,7 +288,13 @@ class WP_Fragment_Cache {
 			$this->theme_directory = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
 		}
 
-		$backtraceArray = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 3 );
+		// PHP 5.3 compatibility fix, limit parameter was added in php 5.4.0
+		if ( version_compare( PHP_VERSION, '5.4.0' ) >= 0 ) {
+			$backtraceArray = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 3 );
+		} else {
+			$backtraceArray = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+		}
+
 		// Remove the theme root
 		$backtraceArray[2]['file'] = str_replace( $this->theme_directory, '', $backtraceArray[2]['file'] );
 
