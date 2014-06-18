@@ -34,13 +34,13 @@ class WP_Fragment_Cache_Admin {
 	protected $plugin_screen_hook_suffix = null;
 
 	/**
-	 * Is persistent cache enabled.
+	 * It meets the requirements.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.4
 	 *
 	 * @var      bool
 	 */
-	protected $persistent_cache;
+	protected $it_meets_the_requirements;
 
 	/**
 	 * Initialize the plugin by adding a settings page and menu.
@@ -48,8 +48,8 @@ class WP_Fragment_Cache_Admin {
 	 * @since     1.0.0
 	 */
 	private function __construct() {
-		$this->plugin_slug = WP_Fragment_Cache::get_instance()->get_plugin_slug();
-		$this->persistent_cache = wp_using_ext_object_cache();
+		$this->plugin_slug               = WP_Fragment_Cache::get_instance()->get_plugin_slug();
+		$this->it_meets_the_requirements = WP_Fragment_Cache::get_instance()->it_meets_the_requirements;
 
 		// Add the options page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
@@ -58,7 +58,7 @@ class WP_Fragment_Cache_Admin {
 		$plugin_basename = plugin_basename( plugin_dir_path( realpath( dirname( __FILE__ ) ) ) . $this->plugin_slug . '.php' );
 		add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
 
-		if ( $this->persistent_cache ) {
+		if ( $this->it_meets_the_requirements ) {
 			// Intercept option save
 			add_filter( 'pre_update_option_wp_fragment_cache_is_enabled', array( $this, 'on_is_enabled_option_update' ), 10, 2 );
 		}
@@ -116,11 +116,11 @@ class WP_Fragment_Cache_Admin {
 
 		add_action( 'load-'.$this->plugin_screen_hook_suffix, array( $this, 'on_load_plugin_admin_page' ) );
 
-		if ( $this->persistent_cache ) {
+		if ( $this->it_meets_the_requirements ) {
 			//call register settings function
 			add_action( 'admin_init', array( $this, 'register_my_settings' ) );
 		} else {
-			add_action( 'admin_notices', array( $this, 'no_persistent_cache_notice' ) );
+			add_action( 'admin_notices', array( $this, 'no_min_req_notice' ) );
 		}
 	}
 
@@ -157,13 +157,22 @@ class WP_Fragment_Cache_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function no_persistent_cache_notice() {
-		echo '<div class="error">
-			  	<p>WP Fragment Cache cannot be enabled, because you don\'t have any
-			  		<a target="_blank" href="https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Caching">
-					<strong>persistent cache</strong></a>.
-			    </p>
-			  </div>';
+	public function no_min_req_notice() {
+		if ( ! wp_using_ext_object_cache() ) {
+			echo '<div class="error">
+				    <p>WP Fragment Cache cannot be enabled, because you don\'t have any
+				        <a target="_blank" href="https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Caching">
+						<strong>persistent cache</strong></a>.
+				    </p>
+				  </div>';
+		}
+
+		if ( version_compare( PHP_VERSION, WP_Fragment_Cache::PHP_MIN_VERSION, '<' ) ) {
+			echo '<div class="error">
+					  <p>WP Fragment Cache requires PHP version ' . WP_Fragment_Cache::PHP_MIN_VERSION . ' or greater.
+				    </p>
+				  </div>';
+		}
 	}
 
 	/**

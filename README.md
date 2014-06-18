@@ -1,7 +1,7 @@
 ## WP Fragment Cache
 
 ### Description
-**This plugin can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
+**This plugin requires PHP version 5.3.6 or greater and can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
 
 Improve website performance by caching individual page fragments (widgets, menus output and long loops).
 

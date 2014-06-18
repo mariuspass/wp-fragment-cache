@@ -25,7 +25,16 @@ class WP_Fragment_Cache {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.4';
+
+	/**
+	 * Php minimum version requirement.
+	 *
+	 * @since   1.0.4
+	 *
+	 * @var     string
+	 */
+	const PHP_MIN_VERSION = '5.3.6';
 
 	/**
 	 *
@@ -81,6 +90,15 @@ class WP_Fragment_Cache {
 	public $is_enabled = false;
 
 	/**
+	 * It meets the requirements.
+	 *
+	 * @since   1.0.4
+	 *
+	 * @var bool
+	 */
+	public $it_meets_the_requirements = false;
+
+	/**
 	 * Cache duration.
 	 *
 	 * @since   1.0.0
@@ -98,10 +116,13 @@ class WP_Fragment_Cache {
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
-		$is_enabled_option = (bool) get_option( 'wp_fragment_cache_is_enabled' );
-		if ( $is_enabled_option && wp_using_ext_object_cache() ) {
-			$this->is_enabled      = true;
-			$this->theme_directory = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
+		if ( wp_using_ext_object_cache() && version_compare( PHP_VERSION, self::PHP_MIN_VERSION, '>=' ) ) {
+			$this->it_meets_the_requirements = true;
+
+			if ( get_option( 'wp_fragment_cache_is_enabled' ) ) {
+				$this->is_enabled      = true;
+				$this->theme_directory = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
+			}
 		}
 	}
 
@@ -252,17 +273,15 @@ class WP_Fragment_Cache {
 	 * @since    1.0.0
 	 */
 	private static function single_activate() {
-		$persistent_cache = (bool) wp_using_ext_object_cache();
-
-		if ( ! $persistent_cache ) {
-			// set is_enabled false regardless of what was before
-			update_option( 'wp_fragment_cache_is_enabled', $persistent_cache );
-			add_action( 'admin_notices', array( 'WP_Fragment_Cache_Admin', 'no_persistent_cache_notice' ) );
-		} else {
+		if ( wp_using_ext_object_cache() && version_compare( PHP_VERSION, self::PHP_MIN_VERSION, '>=' ) ) {
 			$is_enabled = get_option( 'wp_fragment_cache_is_enabled', 'no_value_set' );
-			if ( $is_enabled === 'no_value_set' ){
-				update_option( 'wp_fragment_cache_is_enabled', $persistent_cache );
+			if ( $is_enabled === 'no_value_set' ) {
+				update_option( 'wp_fragment_cache_is_enabled', true );
 			}
+		} else {
+			// set is_enabled false regardless of what was before
+			update_option( 'wp_fragment_cache_is_enabled', false );
+			add_action( 'admin_notices', array( 'WP_Fragment_Cache_Admin', 'no_min_req_notice' ) );
 		}
 	}
 

@@ -2,7 +2,7 @@
 Contributors: mariuspass
 Tags: cache, caching, output caching, cache block, performance, fragment cache
 Requires at least: 3.7.0
-Tested up to: 3.9
+Tested up to: 3.9.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Improve website performance by caching individual page fragments (widgets, menus output and long loops).
 
 == Description ==
-**This plugin can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
+**This plugin requires PHP version 5.3.6 or greater and can't be activated without a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache).**
 
 Adds ability to cache particular sections of your site. This plugin is for people who can't use a full page cache or for sites with lots of pages and with frequent changes.
 It can cache entire loops with the WP_Query(bypassing the database queries) or only the html output of the loop and if the query results has changed(comment added, post was edited, postmeta has changed ...) the cache will be invalidated and regenerated.
@@ -50,6 +50,10 @@ See the [wiki pages](https://github.com/mariuspass/wp-fragment-cache/wiki) on Gi
 Please make sure that you have a [persistent backend](https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Cache_Plugins) for the [WordPress Object Cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) enabled.
 
 == Changelog ==
+= 1.0.4 =
+* PHP 5.3 compatibility fix.
+* Make PHP version 5.3.6 minimal requirement.
+
 = 1.0.3 =
 * Fix example usage code block.
 

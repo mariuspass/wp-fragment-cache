@@ -10,7 +10,7 @@
  * Plugin Name:       WP Fragment Cache
  * Plugin URI:        https://github.com/mariuspass/WP-Fragment-Cache
  * Description:       Boost your page performance by caching individual page fragments.
- * Version:           1.0.0
+ * Version:           1.0.4
  * Author:            Marius Dobre
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
