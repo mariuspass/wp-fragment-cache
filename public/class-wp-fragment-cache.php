@@ -328,13 +328,17 @@ class WP_Fragment_Cache {
 	 *
 	 * @return bool
 	 */
-	private function _output( $wp_query_or_blockname, $duration ) {
-		$this->_set_cache_key_prefix();
+  private function _output( $wp_query_or_blockname, $duration, $absolute ) {
+    $this->_set_cache_key_prefix();
 
 		if ( ! is_string( $wp_query_or_blockname ) ) { //$wp_query_or_blockname is an object or an array
 			$this->current_query_value = sha1( serialize( $wp_query_or_blockname ) );
-		} else {
-			$this->cache_key_prefix   .= '_' . $wp_query_or_blockname;
+    } else {
+      if( ! $absolute ) {
+        $this->cache_key_prefix   .= '_' . $wp_query_or_blockname;
+      } else {
+        $this->cache_key_prefix = $wp_query_or_blockname;
+      }
 			$this->current_query_value = '';
 		}
 
@@ -391,8 +395,38 @@ class WP_Fragment_Cache {
 
 		$all_Fragments_Keys_Array[] = $this->cache_key_prefix;
 		wp_cache_set( 'All_Fragments_Keys_Array', $all_Fragments_Keys_Array, __CLASS__ );
-
 	}
+
+  /**
+   * Purge a specific fragment from the cache.
+   * This only works with fragments that are stored with __output()'s 3rd
+   * argument, $absolute, set to TRUE.
+   *
+   */
+  private function _remove( $wp_query_or_blockname ) {
+    // for conventions' sake
+    $this->cache_key_prefix = $wp_query_or_blockname;
+    
+    // retrieve the key
+    // todo: can we do this without checking if it's in memory?
+    $cachedQueryValue = wp_cache_get( $this->cache_key_prefix . '_key', __CLASS__ );
+    
+    // array of stored fragments
+    $all_Fragments_Keys_Array = wp_cache_get( 'All_Fragments_Keys_Array', __CLASS__ );
+      
+    if ( $cachedQueryValue !== false ) { //the key exists
+      // removes the actual key and content
+      wp_cache_delete( $this->cache_key_prefix . '_key', __CLASS__ );
+      wp_cache_delete( $this->cache_key_prefix . '_content', __CLASS__ );
+      // removes the key from the array of fragments
+      $key = array_search($this->cache_key_prefix,$all_Fragments_Keys_Array);
+      if( $key !== false ) {
+        unset($all_Fragments_Keys_Array[$key]);
+      }
+      return true;
+    }
+    return false;
+  }
 
 	/**
 	 * Purge all the fragments.
@@ -425,11 +459,11 @@ class WP_Fragment_Cache {
 	 * @return bool
 	 *
 	 */
-	static function output( $wp_query_or_blockname = '', $duration = null ) {
+	static function output( $wp_query_or_blockname = '', $duration = null, $absolute = false ) {
 		$instance = WP_Fragment_Cache::get_instance();
 
 		if ( $instance->is_enabled ) {
-			return $instance->_output( $wp_query_or_blockname, $duration );
+			return $instance->_output( $wp_query_or_blockname, $duration, $absolute );
 		}
 
 		return false;
@@ -448,5 +482,25 @@ class WP_Fragment_Cache {
 			$instance->_store();
 		}
 	}
+  
+  /**
+   * Static wrapper for _remove()
+   * @see _remove()
+   *
+   * @param string $wp_query_or_blockname.
+   * This only works for fragments that are stored with
+   * _output()'s 3rd argument $absolute = true
+   *
+   */
+  
+  static function remove( $wp_query_or_blockname ) {
+    $instance = WP_Fragment_Cache::get_instance();
+    
+    if ( $instance->is_enabled ) {
+      return $instance->_remove( $wp_query_or_blockname );
+    }
+    
+    return false;
+  }
 
 }
